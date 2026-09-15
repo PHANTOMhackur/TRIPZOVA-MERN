@@ -47,6 +47,11 @@ const authLimiter = rateLimit({ windowMs: 15 * 60 * 1000, max: 30, standardHeade
 app.use('/api', apiLimiter);
 app.use(['/api/auth/login', '/api/auth/phone-login', '/api/auth/otp', '/api/auth/forgot-password', '/api/auth/reset-password', '/api/users/register'], authLimiter);
 
+app.get('/', (req, res) => res.json({
+  success: true,
+  message: 'TRIPZOVA API is running.',
+  health: '/api/health'
+}));
 app.get('/api/health', (req, res) => res.json({ success: true, message: 'TRIPZOVA API is healthy.' }));
 app.get('/api/auth/me', authMiddleware, getCurrentUser);
 app.use('/api/auth', passwordRoutes);
@@ -61,12 +66,8 @@ app.use('/api/contact', contactRoutes);
 
 app.use('/api', (req, res) => res.status(404).json({ success: false, message: 'API route not found.' }));
 
-// Production: serve the Vite build from client/dist.
-const clientDist = path.join(__dirname, '../client/dist');
-if (process.env.NODE_ENV === 'production') {
-  app.use(express.static(clientDist));
-  app.get(/.*/, (req, res) => res.sendFile(path.join(clientDist, 'index.html')));
-}
+// The React frontend is deployed separately (for example, on Vercel).
+// This API service intentionally does not serve client/dist.
 
 app.use((error, req, res, next) => {
   console.error(error);
@@ -93,8 +94,8 @@ async function startServer() {
   }
 
   app.listen(PORT, '0.0.0.0', () => {
-  console.log(`TRIPZOVA API running on port ${PORT}`);
-});
+    console.log(`TRIPZOVA API running on port ${PORT}`);
+  });
 }
 
 startServer();
