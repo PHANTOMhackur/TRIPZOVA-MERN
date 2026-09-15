@@ -92,9 +92,9 @@ async function startServer() {
     console.warn('Availability calendar sync warning:', error.message);
   }
 
-  app.listen(PORT, () =>
-    console.log(`TRIPZOVA API running on http://localhost:${PORT}`)
-  );
+  app.listen(PORT, '0.0.0.0', () => {
+  console.log(`TRIPZOVA API running on port ${PORT}`);
+});
 }
 
 startServer();
