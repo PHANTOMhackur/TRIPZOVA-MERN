@@ -1,0 +1,264 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    min-height: 100vh;
+    background: #f5f5f5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.account-type-page {
+    width: 100%;
+    padding: 30px;
+}
+
+.account-type-card {
+    max-width: 650px;
+    margin: auto;
+    background: white;
+    border-radius: 20px;
+    padding: 50px;
+    box-shadow: 0 15px 50px rgba(0, 0, 0, 0.08);
+}
+
+.account-type-content {
+    text-align: center;
+}
+
+.logo {
+    font-size: 28px;
+    font-weight: 800;
+    letter-spacing: 2px;
+    margin-bottom: 35px;
+}
+
+h1 {
+    font-size: 32px;
+    margin-bottom: 10px;
+}
+
+.subtitle {
+    color: #777;
+    margin-bottom: 30px;
+}
+
+.user-info {
+    margin-bottom: 25px;
+    font-size: 14px;
+    color: #555;
+}
+
+.account-options {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.account-option {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    text-align: left;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 14px;
+    background: white;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.account-option:hover {
+    border-color: #111;
+    transform: translateY(-2px);
+}
+
+.option-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 12px;
+    background: #f1f1f1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    margin-right: 15px;
+}
+
+.option-text {
+    flex: 1;
+}
+
+.option-text h2 {
+    font-size: 17px;
+    margin-bottom: 5px;
+}
+
+.option-text p {
+    color: #777;
+    font-size: 13px;
+}
+
+.arrow {
+    font-size: 22px;
+    margin-left: 10px;
+}
+
+#message {
+    margin-top: 20px;
+}
+
+.message-error {
+    color: #d00;
+    background: #fff0f0;
+    padding: 12px;
+    border-radius: 8px;
+}
+
+.back-login {
+    display: inline-block;
+    margin-top: 30px;
+    color: #333;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+@media (max-width: 600px) {
+
+    .account-type-page {
+        padding: 15px;
+    }
+
+    .account-type-card {
+        padding: 30px 20px;
+    }
+
+    h1 {
+        font-size: 26px;
+    }
+
+}
+/* =========================================
+   PHONE VERIFICATION STEP (added)
+========================================= */
+
+.account-type-phone-step {
+    text-align: left;
+    margin-top: 8px;
+}
+
+.phone-step-intro {
+    font-size: 13px;
+    color: #6b7280;
+    margin-bottom: 16px;
+    text-align: center;
+}
+
+.input-group {
+    margin-bottom: 17px;
+}
+
+.input-group label {
+    display: block;
+    margin-bottom: 7px;
+    color: #30343b;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.input-group input {
+    width: 100%;
+    height: 43px;
+    padding: 0 15px;
+    border: 1px solid #bdbdbd;
+    border-radius: 22px;
+    outline: none;
+    background: #fff;
+    font-family: inherit;
+    font-size: 13px;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.input-group input:focus {
+    border-color: #39b9ad;
+    box-shadow: 0 0 0 3px rgba(57, 185, 173, 0.12);
+}
+
+.phone-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+}
+
+.phone-row input {
+    flex: 1;
+    min-width: 0;
+}
+
+.otp-btn {
+    flex-shrink: 0;
+    height: 43px;
+    padding: 0 18px;
+    border: none;
+    border-radius: 22px;
+    background: #172033;
+    color: #fff;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background 0.2s ease, transform 0.2s ease, opacity 0.2s ease;
+}
+
+.otp-btn:hover {
+    background: #2a3550;
+    transform: translateY(-1px);
+}
+
+.otp-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.field-hint {
+    display: block;
+    margin-top: 8px;
+    color: #777;
+    font-size: 12px;
+}
+
+.msg91-captcha {
+    margin: 8px 0;
+}
+
+.account-option-confirm {
+    justify-content: center;
+    background: #39b9ad;
+    color: #fff;
+    text-align: center;
+    font-weight: 600;
+    margin-top: 8px;
+    margin-bottom: 8px;
+}
+
+.account-option-confirm:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.message-success {
+    background: #e6f7ef;
+    color: #1a8a51;
+    padding: 10px 14px;
+    border-radius: 10px;
+    font-size: 13px;
+    margin-top: 10px;
+    text-align: center;
+}

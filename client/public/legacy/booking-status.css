@@ -1,0 +1,185 @@
+/* =========================================
+   BOOKING STATUS PAGE
+========================================= */
+
+.bstat-page {
+    max-width: 760px;
+}
+
+.bstat-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+
+    margin-bottom: 20px;
+}
+
+.bstat-header h1 {
+    margin-bottom: 4px;
+}
+
+.bstat-number {
+    font-size: 13px;
+    color: #6b7280;
+    font-weight: 600;
+}
+
+
+/* ---------------------------------------
+   EDIT / CANCEL WINDOW BANNER
+--------------------------------------- */
+
+.bstat-edit-banner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 14px;
+
+    background: #fff8e6;
+    border: 1px solid #ffe4a3;
+    border-radius: 16px;
+
+    padding: 16px 20px;
+
+    margin-bottom: 24px;
+}
+
+.bstat-edit-banner strong {
+    display: block;
+    color: #8a5b00;
+    font-size: 14.5px;
+}
+
+.bstat-countdown-line {
+    margin-top: 4px;
+    font-size: 13px;
+    color: #8a5b00;
+}
+
+#bstatCountdown {
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+}
+
+.bstat-edit-banner-actions {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.bstat-locked-banner {
+    background: #f3f4f6;
+    border: 1px solid #e5e7eb;
+    border-radius: 16px;
+
+    padding: 14px 18px;
+
+    margin-bottom: 24px;
+
+    font-size: 13.5px;
+    color: #4b5563;
+}
+
+
+/* ---------------------------------------
+   DETAIL CARDS
+--------------------------------------- */
+
+.bstat-card {
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 16px;
+
+    padding: 20px;
+
+    margin-bottom: 20px;
+}
+
+.bstat-card h2 {
+    font-size: 15px;
+    margin-bottom: 14px;
+    color: #172033;
+}
+
+.bstat-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px 20px;
+}
+
+.bstat-grid > div {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.bstat-grid span {
+    font-size: 11.5px;
+    color: #9aa1ac;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+}
+
+.bstat-grid strong {
+    font-size: 14px;
+    color: #202633;
+}
+
+@media (max-width: 560px) {
+    .bstat-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+
+/* ---------------------------------------
+   EDIT FORM
+--------------------------------------- */
+
+.bstat-form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px 16px;
+
+    margin-bottom: 16px;
+}
+
+.bstat-form-grid label {
+    display: block;
+    font-size: 12.5px;
+    font-weight: 600;
+    color: #4b5563;
+    margin-bottom: 5px;
+}
+
+.bstat-form-grid input {
+    width: 100%;
+
+    padding: 10px 12px;
+
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+
+    font-size: 13.5px;
+
+    font-family: inherit;
+}
+
+.bstat-form-grid input:focus {
+    outline: none;
+    border-color: #39b9ad;
+}
+
+@media (max-width: 560px) {
+    .bstat-form-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.bstat-form-actions {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}

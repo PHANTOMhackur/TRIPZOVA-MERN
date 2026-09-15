@@ -1,0 +1,59 @@
+:root {
+  --tripzova-cyan: #39b9ad;
+  --tripzova-cyan-dark: #2ca297;
+}
+
+::selection {
+  background: rgba(57, 185, 173, .22);
+  color: #172033;
+}
+
+button,
+a,
+input,
+select,
+textarea {
+  -webkit-tap-highlight-color: transparent;
+}
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 3px solid rgba(57, 185, 173, .24);
+  outline-offset: 2px;
+}
+
+* {
+  scrollbar-color: rgba(57,185,173,.38) transparent;
+  scrollbar-width: thin;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto !important; }
+}
+
+/* Small interaction polish shared by the migrated React application. */
+.partner-card,
+.admin-card,
+.vehicle-card,
+.explore-card,
+.booking-card {
+  transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease;
+}
+
+.partner-btn,
+.admin-btn,
+.btn-primary,
+.btn-secondary,
+button {
+  transition: transform .18s ease, box-shadow .18s ease, background-color .18s ease, border-color .18s ease, color .18s ease;
+}
+
+@media (hover: hover) {
+  .partner-btn:hover,
+  .admin-btn:hover {
+    transform: translateY(-1px);
+  }
+}
