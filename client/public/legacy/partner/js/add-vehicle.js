@@ -265,12 +265,9 @@
         });
     }
 
-    function getVehicleUploadUrl() {
-        // Always use the same-origin Vercel /api proxy in production.
-        // This avoids stale VITE_API_URL values baked into legacy scripts
-        // and keeps local/Vercel routing consistent.
-        return "/api/partners/uploads/vehicle-image";
-    }
+   function getVehicleUploadUrl() {
+    return "https://api.tripzova.in/api/partners/uploads/vehicle-image";
+}
 
     async function uploadSelectedVehiclePhoto() {
         if (!selectedVehiclePhotoFile) {
