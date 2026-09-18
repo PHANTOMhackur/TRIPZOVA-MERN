@@ -266,10 +266,10 @@
     }
 
     function getVehicleUploadUrl() {
-        const apiBaseInput = document.getElementById("tripzovaApiBase");
-        const apiBase = (apiBaseInput && apiBaseInput.value) || "/api";
-
-        return `${apiBase.replace(/\/$/, "")}/partners/uploads/vehicle-image`;
+        // Always use the same-origin Vercel /api proxy in production.
+        // This avoids stale VITE_API_URL values baked into legacy scripts
+        // and keeps local/Vercel routing consistent.
+        return "/api/partners/uploads/vehicle-image";
     }
 
     async function uploadSelectedVehiclePhoto() {
