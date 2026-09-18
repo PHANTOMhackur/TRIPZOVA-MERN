@@ -13,6 +13,9 @@
     const params = new URLSearchParams(window.location.search);
     const editingVehicleId = params.get("id");
 
+    let selectedVehiclePhotoFile = null;
+    let vehiclePhotoObjectUrl = null;
+
 
     // =================================================
     // FIXED ROUTE ROWS
@@ -167,6 +170,224 @@
 
 
     // =================================================
+    // VEHICLE PHOTO UPLOAD + PREVIEW
+    // =================================================
+
+    const VEHICLE_PHOTO_MAX_BYTES = 5 * 1024 * 1024;
+    const VEHICLE_PHOTO_TYPES = [
+        "image/jpeg",
+        "image/png",
+        "image/webp"
+    ];
+
+    function setUploadStatus(message, type) {
+        const status = document.getElementById("vehiclePhotoUploadStatus");
+        if (!status) return;
+
+        status.textContent = message || "";
+        status.className = "tripzova-upload-status";
+
+        if (message && type) {
+            status.classList.add(`tripzova-upload-status-${type}`);
+        }
+    }
+
+    function revokeVehiclePhotoObjectUrl() {
+        if (vehiclePhotoObjectUrl) {
+            URL.revokeObjectURL(vehiclePhotoObjectUrl);
+            vehiclePhotoObjectUrl = null;
+        }
+    }
+
+    function showVehiclePhotoPreview(src, options = {}) {
+        const previewWrap = document.getElementById("vehiclePhotoPreviewWrap");
+        const preview = document.getElementById("vehiclePhotoPreview");
+        const emptyState = document.getElementById("vehiclePhotoEmptyState");
+
+        if (!previewWrap || !preview || !emptyState) return;
+
+        preview.src = src;
+        previewWrap.style.display = "block";
+        emptyState.style.display = "none";
+
+        if (options.fileName) {
+            setUploadStatus(`${options.fileName} selected. It will upload when you save.`, "ready");
+        }
+    }
+
+    function clearVehiclePhoto() {
+        selectedVehiclePhotoFile = null;
+        revokeVehiclePhotoObjectUrl();
+        setValue("vehiclePhotoUrl", "");
+
+        const fileInput = document.getElementById("vehiclePhotoFile");
+        const previewWrap = document.getElementById("vehiclePhotoPreviewWrap");
+        const preview = document.getElementById("vehiclePhotoPreview");
+        const emptyState = document.getElementById("vehiclePhotoEmptyState");
+
+        if (fileInput) fileInput.value = "";
+        if (preview) preview.removeAttribute("src");
+        if (previewWrap) previewWrap.style.display = "none";
+        if (emptyState) emptyState.style.display = "flex";
+
+        setUploadStatus("Photo removed.", "muted");
+    }
+
+    function validateVehiclePhoto(file) {
+        if (!file) {
+            return "Please select an image.";
+        }
+
+        if (!VEHICLE_PHOTO_TYPES.includes(file.type)) {
+            return "Please choose a JPG, PNG or WEBP image.";
+        }
+
+        if (file.size > VEHICLE_PHOTO_MAX_BYTES) {
+            return "Vehicle photo must be 5 MB or smaller.";
+        }
+
+        return "";
+    }
+
+    function selectVehiclePhoto(file) {
+        const error = validateVehiclePhoto(file);
+
+        if (error) {
+            setUploadStatus(error, "danger");
+            return;
+        }
+
+        selectedVehiclePhotoFile = file;
+        revokeVehiclePhotoObjectUrl();
+        vehiclePhotoObjectUrl = URL.createObjectURL(file);
+        showVehiclePhotoPreview(vehiclePhotoObjectUrl, {
+            fileName: file.name
+        });
+    }
+
+    function getVehicleUploadUrl() {
+        const apiBaseInput = document.getElementById("tripzovaApiBase");
+        const apiBase = (apiBaseInput && apiBaseInput.value) || "/api";
+
+        return `${apiBase.replace(/\/$/, "")}/partners/uploads/vehicle-image`;
+    }
+
+    async function uploadSelectedVehiclePhoto() {
+        if (!selectedVehiclePhotoFile) {
+            return getValue("vehiclePhotoUrl").trim();
+        }
+
+        const token = localStorage.getItem("tripzovaToken");
+
+        if (!token) {
+            throw new Error("Authentication required.");
+        }
+
+        const formData = new FormData();
+        formData.append("image", selectedVehiclePhotoFile);
+
+        setUploadStatus("Uploading vehicle photo...", "uploading");
+
+        const response = await fetch(getVehicleUploadUrl(), {
+            method: "POST",
+            headers: {
+                Authorization: `Bearer ${token}`
+            },
+            body: formData
+        });
+
+        let data = {};
+
+        try {
+            data = await response.json();
+        } catch (error) {
+            data = {};
+        }
+
+        if (!response.ok) {
+            throw new Error(
+                data.message || "Unable to upload vehicle photo."
+            );
+        }
+
+        const uploadedUrl = data.url || data.secureUrl || "";
+
+        if (!uploadedUrl) {
+            throw new Error("Image upload completed without a usable URL.");
+        }
+
+        setValue("vehiclePhotoUrl", uploadedUrl);
+        selectedVehiclePhotoFile = null;
+        revokeVehiclePhotoObjectUrl();
+        showVehiclePhotoPreview(uploadedUrl);
+        setUploadStatus("Vehicle photo uploaded successfully.", "success");
+
+        return uploadedUrl;
+    }
+
+    function initVehiclePhotoUpload() {
+        const fileInput = document.getElementById("vehiclePhotoFile");
+        const chooseBtn = document.getElementById("chooseVehiclePhotoBtn");
+        const changeBtn = document.getElementById("changeVehiclePhotoBtn");
+        const removeBtn = document.getElementById("removeVehiclePhotoBtn");
+        const dropZone = document.getElementById("vehiclePhotoDropZone");
+
+        if (!fileInput || !dropZone) return;
+
+        const openPicker = (event) => {
+            if (event) event.stopPropagation();
+            fileInput.click();
+        };
+
+        if (chooseBtn) chooseBtn.addEventListener("click", openPicker);
+        if (changeBtn) changeBtn.addEventListener("click", openPicker);
+
+        if (removeBtn) {
+            removeBtn.addEventListener("click", (event) => {
+                event.stopPropagation();
+                clearVehiclePhoto();
+            });
+        }
+
+        fileInput.addEventListener("change", () => {
+            const file = fileInput.files && fileInput.files[0];
+            if (file) selectVehiclePhoto(file);
+        });
+
+        dropZone.addEventListener("click", (event) => {
+            if (event.target.closest("button")) return;
+            openPicker(event);
+        });
+
+        dropZone.addEventListener("keydown", (event) => {
+            if (event.key === "Enter" || event.key === " ") {
+                event.preventDefault();
+                openPicker(event);
+            }
+        });
+
+        ["dragenter", "dragover"].forEach((eventName) => {
+            dropZone.addEventListener(eventName, (event) => {
+                event.preventDefault();
+                dropZone.classList.add("is-dragging");
+            });
+        });
+
+        ["dragleave", "drop"].forEach((eventName) => {
+            dropZone.addEventListener(eventName, (event) => {
+                event.preventDefault();
+                dropZone.classList.remove("is-dragging");
+            });
+        });
+
+        dropZone.addEventListener("drop", (event) => {
+            const file = event.dataTransfer && event.dataTransfer.files[0];
+            if (file) selectVehiclePhoto(file);
+        });
+    }
+
+
+    // =================================================
     // LOAD EXISTING VEHICLE (edit mode)
     // =================================================
 
@@ -229,7 +450,10 @@
             Array.isArray(vehicle.vehiclePhotos) &&
             vehicle.vehiclePhotos.length
         ) {
-            setValue("vehiclePhotoUrl", vehicle.vehiclePhotos[0]);
+            const existingPhoto = vehicle.vehiclePhotos[0];
+            setValue("vehiclePhotoUrl", existingPhoto);
+            showVehiclePhotoPreview(existingPhoto);
+            setUploadStatus("Current vehicle photo.", "muted");
         }
     }
 
@@ -304,8 +528,6 @@
             return;
         }
 
-        const photoUrl = getValue("vehiclePhotoUrl").trim();
-
         const payload = {
             vehicleName,
             vehicleNumber,
@@ -322,7 +544,7 @@
             driverAllowance: Number(getValue("driverAllowance") || 0),
             extraCharges: Number(getValue("extraCharges") || 0),
             description: getValue("vehicleDescription").trim(),
-            vehiclePhotos: photoUrl ? [photoUrl] : []
+            vehiclePhotos: []
         };
 
         const saveButton = document.getElementById("saveVehicleBtn");
@@ -337,6 +559,9 @@
         );
 
         try {
+
+            const photoUrl = await uploadSelectedVehiclePhoto();
+            payload.vehiclePhotos = photoUrl ? [photoUrl] : [];
 
             if (editingVehicleId) {
 
@@ -369,6 +594,8 @@
                 );
 
                 document.getElementById("vehicleForm").reset();
+                clearVehiclePhoto();
+                setUploadStatus("");
                 renderRouteRows([]);
             }
 
@@ -448,6 +675,7 @@
         }
 
         initRouteRowEvents();
+        initVehiclePhotoUpload();
 
         if (!editingVehicleId) {
             // Fresh "Add Vehicle" form - start with one empty route row.

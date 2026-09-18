@@ -404,14 +404,56 @@ export default function PartnerAddVehiclePage() {
                   Tolls, parking, night charges, etc. Optional.
                 </small>
               </div>
-              <div className={"col-md-6"}>
-                <label htmlFor={"vehiclePhotoUrl"} className={"partner-form-label"}>
-                  Vehicle Photo URL
+              <div className={"col-12"}>
+                <label className={"partner-form-label"}>
+                  Vehicle Photo
                 </label>
-                <input type={"url"} id={"vehiclePhotoUrl"} className={"partner-form-control"} placeholder={"https://example.com/vehicle.jpg"} />
+                <input type={"hidden"} id={"vehiclePhotoUrl"} />
+                <input type={"hidden"} id={"tripzovaApiBase"} value={import.meta.env.VITE_API_URL || "/api"} readOnly />
+                <input
+                  type={"file"}
+                  id={"vehiclePhotoFile"}
+                  accept={"image/jpeg,image/png,image/webp"}
+                  hidden
+                />
+                <div
+                  className={"tripzova-vehicle-upload"}
+                  id={"vehiclePhotoDropZone"}
+                  role={"button"}
+                  tabIndex={0}
+                  aria-label={"Choose a vehicle photo"}
+                >
+                  <div className={"tripzova-vehicle-upload-empty"} id={"vehiclePhotoEmptyState"}>
+                    <div className={"tripzova-vehicle-upload-icon"}>
+                      <i className={"bi bi-cloud-arrow-up"}></i>
+                    </div>
+                    <div>
+                      <strong>Upload vehicle photo</strong>
+                      <p>Click to choose or drag & drop a JPG, PNG or WEBP image.</p>
+                      <span>Maximum file size: 5 MB</span>
+                    </div>
+                    <button type={"button"} className={"partner-btn partner-btn-outline partner-btn-sm"} id={"chooseVehiclePhotoBtn"}>
+                      <i className={"bi bi-image"}></i>
+                      Choose Image
+                    </button>
+                  </div>
+                  <div className={"tripzova-vehicle-preview"} id={"vehiclePhotoPreviewWrap"} style={{display: "none"}}>
+                    <img id={"vehiclePhotoPreview"} alt={"Vehicle preview"} />
+                    <div className={"tripzova-vehicle-preview-overlay"}>
+                      <button type={"button"} className={"tripzova-photo-action"} id={"changeVehiclePhotoBtn"}>
+                        <i className={"bi bi-arrow-repeat"}></i>
+                        Change
+                      </button>
+                      <button type={"button"} className={"tripzova-photo-action tripzova-photo-action-danger"} id={"removeVehiclePhotoBtn"}>
+                        <i className={"bi bi-trash"}></i>
+                        Remove
+                      </button>
+                    </div>
+                  </div>
+                </div>
+                <div className={"tripzova-upload-status"} id={"vehiclePhotoUploadStatus"} aria-live={"polite"}></div>
                 <small className={"partner-form-help"}>
-                  Paste a link to a photo of your vehicle.
-                                (Direct file upload isn't available yet.)
+                  Your photo is uploaded securely when you save the vehicle.
                 </small>
               </div>
               <div className={"col-12"}>

@@ -3503,3 +3503,165 @@
     font-size: 11.5px;
     line-height: 1.55;
 }
+
+/* =====================================================
+   TRIPZOVA VEHICLE IMAGE UPLOAD
+===================================================== */
+
+.tripzova-vehicle-upload {
+    position: relative;
+    width: 100%;
+    min-height: 210px;
+    overflow: hidden;
+    border: 1.5px dashed rgba(44, 162, 151, .38);
+    border-radius: 16px;
+    background:
+        radial-gradient(circle at top right, rgba(57, 185, 173, .12), transparent 42%),
+        linear-gradient(135deg, #fbfffe, #f5fbfa);
+    transition: border-color .2s ease, box-shadow .2s ease, transform .2s ease;
+    cursor: pointer;
+}
+
+.tripzova-vehicle-upload:hover,
+.tripzova-vehicle-upload:focus,
+.tripzova-vehicle-upload.is-dragging {
+    border-color: #39b9ad;
+    box-shadow: 0 14px 34px rgba(44, 162, 151, .12);
+    outline: none;
+}
+
+.tripzova-vehicle-upload.is-dragging {
+    transform: translateY(-2px);
+    background: #effaf8;
+}
+
+.tripzova-vehicle-upload-empty {
+    min-height: 210px;
+    padding: 26px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    text-align: center;
+}
+
+.tripzova-vehicle-upload-icon {
+    width: 54px;
+    height: 54px;
+    margin-bottom: 12px;
+    display: grid;
+    place-items: center;
+    border-radius: 16px;
+    color: #23958b;
+    background: #ffffff;
+    box-shadow: 0 10px 28px rgba(44, 162, 151, .14);
+    font-size: 24px;
+}
+
+.tripzova-vehicle-upload-empty strong {
+    display: block;
+    margin-bottom: 4px;
+    color: #172033;
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.tripzova-vehicle-upload-empty p {
+    margin: 0 0 4px;
+    color: #687477;
+    font-size: 12px;
+}
+
+.tripzova-vehicle-upload-empty span {
+    display: block;
+    margin-bottom: 14px;
+    color: #9aa4a6;
+    font-size: 10.5px;
+}
+
+.tripzova-vehicle-preview {
+    position: relative;
+    min-height: 260px;
+    background: #eaf4f2;
+}
+
+.tripzova-vehicle-preview img {
+    display: block;
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+}
+
+.tripzova-vehicle-preview-overlay {
+    position: absolute;
+    inset: auto 0 0;
+    padding: 34px 16px 14px;
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+    background: linear-gradient(transparent, rgba(8, 25, 31, .72));
+}
+
+.tripzova-photo-action {
+    min-height: 36px;
+    padding: 0 13px;
+    border: 1px solid rgba(255, 255, 255, .32);
+    border-radius: 10px;
+    background: rgba(255, 255, 255, .94);
+    color: #172033;
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 11px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: transform .15s ease, background .15s ease;
+}
+
+.tripzova-photo-action:hover {
+    transform: translateY(-1px);
+    background: #ffffff;
+}
+
+.tripzova-photo-action-danger {
+    color: #c53f43;
+}
+
+.tripzova-upload-status {
+    min-height: 19px;
+    margin-top: 8px;
+    font-size: 11px;
+    font-weight: 600;
+}
+
+.tripzova-upload-status-ready,
+.tripzova-upload-status-uploading {
+    color: #258f86;
+}
+
+.tripzova-upload-status-success {
+    color: #1d9a57;
+}
+
+.tripzova-upload-status-danger {
+    color: #cf4142;
+}
+
+.tripzova-upload-status-muted {
+    color: #8a9597;
+}
+
+@media (max-width: 767px) {
+    .tripzova-vehicle-upload,
+    .tripzova-vehicle-upload-empty {
+        min-height: 190px;
+    }
+
+    .tripzova-vehicle-preview img {
+        height: 220px;
+    }
+
+    .tripzova-vehicle-preview-overlay {
+        justify-content: center;
+    }
+}

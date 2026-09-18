@@ -2,6 +2,8 @@ const express = require("express");
 
 const authMiddleware = require("../middleware/authMiddleware");
 const partnerMiddleware = require("../middleware/partnerMiddleware");
+const vehicleImageUpload = require("../middleware/vehicleImageUpload");
+const { uploadVehicleImage } = require("../controllers/uploadController");
 
 const {
     getMyProfile,
@@ -52,6 +54,17 @@ router.get(
 router.put(
     "/profile",
     updateMyProfile
+);
+
+
+// =====================================================
+// VEHICLE IMAGE UPLOAD
+// =====================================================
+
+router.post(
+    "/uploads/vehicle-image",
+    vehicleImageUpload,
+    uploadVehicleImage
 );
 
 
